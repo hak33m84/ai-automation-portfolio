@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budi Hakim — AI Automation Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c14;
+  --surface: #0e1420;
+  --surface2: #141c2e;
+  --border: rgba(99,179,237,0.12);
+  --accent: #38bdf8;
+  --accent2: #818cf8;
+  --accent3: #34d399;
+  --warn: #f59e0b;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --card: #0f1724;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ===================== NOISE OVERLAY ===================== */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: 0.4;
+}
+
+/* ===================== GLOW BLOBS ===================== */
+.blob {
+  position: fixed; border-radius: 50%;
+  filter: blur(120px); pointer-events: none; z-index: 0;
+  animation: blobFloat 8s ease-in-out infinite alternate;
+}
+.blob-1 { width: 500px; height: 500px; background: rgba(56,189,248,0.06); top: -100px; right: -100px; }
+.blob-2 { width: 400px; height: 400px; background: rgba(129,140,248,0.05); bottom: 20%; left: -80px; animation-delay: -3s; }
+.blob-3 { width: 300px; height: 300px; background: rgba(52,211,153,0.04); top: 50%; right: 20%; animation-delay: -5s; }
+
+@keyframes blobFloat {
+  from { transform: translateY(0) scale(1); }
+  to   { transform: translateY(-30px) scale(1.05); }
+}
+
+/* ===================== LAYOUT ===================== */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+section { padding: 100px 0; }
+
+/* ===================== NAV ===================== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(8,12,20,0.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  transition: all 0.3s;
+}
+
+nav .inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+nav .logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 1.1rem;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+nav ul { list-style: none; display: flex; gap: 32px; }
+nav a {
+  color: var(--muted); text-decoration: none;
+  font-size: 0.875rem; font-weight: 500;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--text); }
+
+.nav-cta {
+  background: var(--accent);
+  color: var(--bg) !important;
+  padding: 8px 20px; border-radius: 6px;
+  font-weight: 600 !important;
+  transition: background 0.2s, transform 0.2s !important;
+}
+.nav-cta:hover { background: #7dd3fc !important; transform: translateY(-1px); }
+
+/* ===================== HERO ===================== */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding-top: 80px;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(56,189,248,0.08);
+  border: 1px solid rgba(56,189,248,0.2);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 0.8rem; font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 32px;
+  animation: fadeInUp 0.6s ease both;
+}
+
+.hero-badge .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  animation: fadeInUp 0.6s 0.1s ease both;
+}
+
+h1 .line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  margin-top: 24px;
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.7;
+  animation: fadeInUp 0.6s 0.2s ease both;
+}
+
+.hero-stats {
+  display: flex; gap: 40px;
+  margin-top: 48px;
+  animation: fadeInUp 0.6s 0.3s ease both;
+}
+
+.hero-stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem; font-weight: 800;
+  color: var(--accent);
+}
+
+.hero-stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+
+.hero-actions {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  margin-top: 40px;
+  animation: fadeInUp 0.6s 0.4s ease both;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  padding: 14px 32px; border-radius: 8px;
+  font-weight: 600; font-size: 0.95rem;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 30px rgba(56,189,248,0.2);
+}
+
+.btn-primary:hover {
+  background: #7dd3fc;
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(56,189,248,0.35);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  padding: 14px 32px; border-radius: 8px;
+  font-weight: 500; font-size: 0.95rem;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: border-color 0.2s, transform 0.2s, background 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: rgba(99,179,237,0.4);
+  background: rgba(56,189,248,0.05);
+  transform: translateY(-2px);
+}
+
+/* ===================== SECTION HEADER ===================== */
+.section-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.section-lead {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+/* ===================== PROBLEM / SOLUTION ===================== */
+#problem { background: var(--surface); }
+
+.problem-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+  border-radius: 16px; overflow: hidden;
+  margin-top: 56px;
+  border: 1px solid var(--border);
+}
+
+.problem-col {
+  padding: 40px 36px;
+}
+
+.problem-col.before {
+  background: rgba(239,68,68,0.04);
+  border-right: 1px solid var(--border);
+}
+
+.problem-col.after { background: rgba(52,211,153,0.04); }
+
+.col-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.col-tag.red { color: #f87171; }
+.col-tag.green { color: var(--accent3); }
+
+.problem-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.problem-item:last-child { border-bottom: none; }
+
+.problem-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0; margin-top: 2px;
+}
+
+.before .problem-icon { background: rgba(239,68,68,0.1); }
+.after .problem-icon  { background: rgba(52,211,153,0.1); }
+
+.problem-text { font-size: 0.92rem; color: var(--muted); line-height: 1.5; }
+.problem-text strong { color: var(--text); }
+
+/* ===================== HOW IT WORKS ===================== */
+.flow-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 2px; margin-top: 56px;
+  position: relative;
+}
+
+.flow-step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px 24px;
+  position: relative;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.flow-step:hover {
+  transform: translateY(-4px);
+  border-color: rgba(56,189,248,0.3);
+}
+
+.step-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; color: var(--muted);
+  margin-bottom: 16px;
+  letter-spacing: 0.1em;
+}
+
+.step-icon {
+  font-size: 1.8rem; margin-bottom: 16px; display: block;
+}
+
+.step-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 0.95rem;
+  margin-bottom: 8px; color: var(--text);
+}
+
+.step-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+.step-arrow {
+  position: absolute; top: 50%; right: -14px;
+  transform: translateY(-50%);
+  color: var(--accent); font-size: 1.2rem; z-index: 2;
+}
+
+.flow-step:last-child .step-arrow { display: none; }
+
+/* ===================== CASE STUDY ===================== */
+#case-study { background: var(--surface); }
+
+.case-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  flex-wrap: wrap; gap: 24px; margin-bottom: 48px;
+}
+
+.case-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-radius: 6px; padding: 6px 14px;
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--warn); letter-spacing: 0.05em;
+}
+
+.metrics-bar {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 2px; margin-bottom: 56px;
+}
+
+.metric-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 28px 24px;
+  text-align: center;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.metric-card:hover {
+  border-color: rgba(56,189,248,0.25);
+  transform: translateY(-3px);
+}
+
+.metric-value {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.2rem; font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.metric-label { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
+
+/* ===================== SCREENSHOTS ===================== */
+.screenshots-section { margin-top: 56px; }
+
+.ss-tabs {
+  display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;
+}
+
+.ss-tab {
+  padding: 8px 20px; border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent; color: var(--muted);
+  cursor: pointer; font-size: 0.83rem; font-weight: 500;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.ss-tab.active, .ss-tab:hover {
+  background: rgba(56,189,248,0.08);
+  border-color: rgba(56,189,248,0.3);
+  color: var(--accent);
+}
+
+.ss-panel { display: none; }
+.ss-panel.active { display: block; }
+
+.ss-frame {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+}
+
+.ss-toolbar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+
+.ss-dot { width: 12px; height: 12px; border-radius: 50%; }
+.ss-dot.red { background: #ff5f57; }
+.ss-dot.yellow { background: #febc2e; }
+.ss-dot.green { background: #28c840; }
+
+.ss-url {
+  flex: 1; background: rgba(255,255,255,0.04); border-radius: 6px;
+  padding: 4px 12px; font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; color: var(--muted); margin-left: 8px;
+}
+
+.ss-img-wrap {
+  position: relative; overflow: hidden;
+  max-height: 520px;
+}
+
+.ss-img-wrap img {
+  width: 100%; display: block;
+  transition: transform 0.4s ease;
+}
+
+.ss-img-wrap:hover img { transform: scale(1.01); }
+
+.ss-caption {
+  padding: 16px 20px;
+  font-size: 0.82rem; color: var(--muted);
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+
+.ss-caption::before { content: "ℹ️"; }
+
+/* ===================== STACK ===================== */
+.stack-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 56px;
+}
+
+.stack-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 28px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.stack-card:hover {
+  border-color: rgba(56,189,248,0.25);
+  transform: translateY(-3px);
+}
+
+.stack-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  background: rgba(56,189,248,0.08);
+  margin-bottom: 18px;
+}
+
+.stack-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.stack-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+.stack-pills {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px;
+}
+
+.pill {
+  padding: 3px 10px; border-radius: 100px;
+  font-size: 0.7rem; font-weight: 500;
+  background: rgba(56,189,248,0.08);
+  border: 1px solid rgba(56,189,248,0.15);
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ===================== SERVICES ===================== */
+#services { background: var(--surface); }
+
+.services-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 24px; margin-top: 56px;
+}
+
+.service-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 36px;
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative; overflow: hidden;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(56,189,248,0.03) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.3s;
+}
+
+.service-card:hover::before { opacity: 1; }
+
+.service-card:hover {
+  border-color: rgba(56,189,248,0.3);
+  transform: translateY(-4px);
+}
+
+.service-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; color: var(--accent); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.service-num::after {
+  content: '';
+  flex: 1; height: 1px; background: var(--border);
+}
+
+.service-icon { font-size: 2rem; margin-bottom: 16px; }
+
+.service-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 1.15rem;
+  margin-bottom: 12px;
+}
+
+.service-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+.service-includes {
+  margin-top: 20px; list-style: none;
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+.service-includes li {
+  font-size: 0.83rem; color: var(--muted);
+  display: flex; align-items: flex-start; gap: 8px;
+}
+
+.service-includes li::before {
+  content: '→';
+  color: var(--accent); flex-shrink: 0;
+}
+
+/* ===================== PRICING ===================== */
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 56px;
+}
+
+.pricing-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 36px;
+  position: relative;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.pricing-card.featured {
+  border-color: rgba(56,189,248,0.4);
+  background: linear-gradient(135deg, rgba(56,189,248,0.05) 0%, rgba(129,140,248,0.05) 100%);
+}
+
+.pricing-card:hover { transform: translateY(-4px); }
+
+.featured-badge {
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: var(--bg);
+  padding: 4px 18px; border-radius: 100px;
+  font-size: 0.72rem; font-weight: 700;
+  white-space: nowrap;
+}
+
+.pricing-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 0.85rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 16px;
+}
+
+.pricing-price {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem; font-weight: 800;
+  color: var(--text);
+}
+
+.pricing-period {
+  font-size: 0.8rem; color: var(--muted);
+  margin-bottom: 28px;
+}
+
+.pricing-divider {
+  height: 1px; background: var(--border); margin: 24px 0;
+}
+
+.pricing-features { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+
+.pricing-features li {
+  font-size: 0.85rem; display: flex; align-items: flex-start; gap: 10px;
+}
+
+.pricing-features li .check { color: var(--accent3); flex-shrink: 0; }
+.pricing-features li .dash { color: var(--muted); flex-shrink: 0; }
+
+.btn-pricing {
+  display: block; width: 100%; margin-top: 32px;
+  padding: 12px; border-radius: 8px;
+  text-align: center; font-weight: 600; font-size: 0.88rem;
+  text-decoration: none; transition: all 0.2s;
+  cursor: pointer; border: none; font-family: inherit;
+}
+
+.btn-pricing-primary {
+  background: var(--accent); color: var(--bg);
+}
+.btn-pricing-primary:hover { background: #7dd3fc; }
+
+.btn-pricing-outline {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-pricing-outline:hover {
+  border-color: rgba(56,189,248,0.3);
+  background: rgba(56,189,248,0.05);
+  color: var(--accent);
+}
+
+/* ===================== CTA ===================== */
+#contact {
+  text-align: center;
+}
+
+.cta-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px; padding: 72px 48px;
+  position: relative; overflow: hidden;
+}
+
+.cta-box::before {
+  content: '';
+  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(56,189,248,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-box h2 { margin: 0 auto 20px; }
+
+.cta-box .section-lead { margin: 0 auto 40px; text-align: center; }
+
+.contact-methods {
+  display: flex; justify-content: center; gap: 16px;
+  flex-wrap: wrap; margin-top: 48px;
+}
+
+.contact-chip {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 100px; padding: 10px 20px;
+  font-size: 0.85rem; color: var(--muted);
+  text-decoration: none; transition: all 0.2s;
+}
+
+.contact-chip:hover {
+  border-color: rgba(56,189,248,0.3);
+  color: var(--text);
+  background: rgba(56,189,248,0.05);
+  transform: translateY(-2px);
+}
+
+/* ===================== FOOTER ===================== */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+  text-align: center;
+}
+
+footer p { font-size: 0.8rem; color: var(--muted); }
+footer span { color: var(--accent); }
+
+/* ===================== ANIMATIONS ===================== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===================== TYPING CURSOR ===================== */
+.typing-cursor {
+  display: inline-block;
+  width: 3px; height: 1em;
+  background: var(--accent);
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ===================== SCROLL INDICATOR ===================== */
+.scroll-hint {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--muted); font-size: 0.72rem;
+  animation: fadeInUp 1s 1s ease both;
+}
+
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollLine 2s ease infinite;
+}
+
+@keyframes scrollLine {
+  0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+  100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+  .problem-grid { grid-template-columns: 1fr; }
+  .flow-steps { grid-template-columns: 1fr 1fr; }
+  .flow-step .step-arrow { display: none; }
+  .metrics-bar { grid-template-columns: 1fr 1fr; }
+  .stack-grid { grid-template-columns: 1fr 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 24px; }
+  nav ul { display: none; }
+}
+
+@media (max-width: 480px) {
+  .flow-steps, .stack-grid { grid-template-columns: 1fr; }
+  .metrics-bar { grid-template-columns: 1fr 1fr; }
+  section { padding: 72px 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="inner">
+    <a href="#" class="logo">budi.hakim</a>
+    <ul>
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#case-study">Case Study</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Available for new projects · Based in Medan, Indonesia
+    </div>
+
+    <h1>
+      I Build AI Agents<br>
+      <span class="line2">That Actually Work<span class="typing-cursor"></span></span>
+    </h1>
+
+    <p class="hero-sub">
+      Industrial AI Automation Engineer specializing in agentic systems for operational reporting, maintenance workflows, and real-time dashboards — deployed and running in production.
+    </p>
+
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">198+</div>
+        <div class="hero-stat-label">Assets tracked live</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">99%</div>
+        <div class="hero-stat-label">Completion rate achieved</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-label">AI agents deployed</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">0</div>
+        <div class="hero-stat-label">Manual forms needed</div>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#case-study" class="btn-primary">
+        <span>See Case Study</span>
+        <span>↓</span>
+      </a>
+      <a href="#contact" class="btn-secondary">
+        <span>💬</span>
+        <span>Let's Talk</span>
+      </a>
+    </div>
+  </div>
+  <div class="scroll-hint" style="position:relative;margin-top:80px;left:0;transform:none;text-align:center;">
+    <div class="scroll-line"></div>
+    <span>scroll to explore</span>
+  </div>
+</section>
+
+<!-- PROBLEM / SOLUTION -->
+<section id="problem">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">// the problem</div>
+      <h2>Your Team Is Still<br>Filing Reports Manually</h2>
+      <p class="section-lead">
+        Most industrial teams lose 2–4 hours daily on paperwork, WhatsApp follow-ups, and spreadsheet errors. That's waste that compounds every single shift.
+      </p>
+    </div>
+
+    <div class="problem-grid reveal">
+      <div class="problem-col before">
+        <div class="col-tag red">❌ Before AI Agent</div>
+        <div class="problem-item">
+          <div class="problem-icon">📋</div>
+          <div class="problem-text"><strong>Manual paper forms</strong> — technicians fill out physical reports, then someone re-enters data into spreadsheets</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">📱</div>
+          <div class="problem-text"><strong>WhatsApp chaos</strong> — managers ask for updates, techs reply informally, nothing is structured</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">📊</div>
+          <div class="problem-text"><strong>No real-time visibility</strong> — supervisors don't know what's done until end-of-day briefings</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">⚠️</div>
+          <div class="problem-text"><strong>Sparepart surprises</strong> — stock runs out with no warning, causing unplanned downtime</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">🗂️</div>
+          <div class="problem-text"><strong>Fragmented data</strong> — reports scattered across files, chat logs, and notebooks</div>
+        </div>
+      </div>
+
+      <div class="problem-col after">
+        <div class="col-tag green">✅ After AI Agent</div>
+        <div class="problem-item">
+          <div class="problem-icon">🤖</div>
+          <div class="problem-text"><strong>Telegram-based reporting</strong> — technicians chat naturally, AI agent extracts structured data automatically</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">🔔</div>
+          <div class="problem-text"><strong>Auto-notifications</strong> — manager receives formatted summary instantly, zero follow-up needed</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">📈</div>
+          <div class="problem-text"><strong>Live dashboard</strong> — real-time overview of all assets, PM completion, and pending corrective work</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">🟡</div>
+          <div class="problem-text"><strong>Intelligent stock alerts</strong> — system flags items reaching minimum threshold automatically</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">📑</div>
+          <div class="problem-text"><strong>Single source of truth</strong> — all data lands in structured Google Sheets with 8 interconnected sheets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">// how it works</div>
+      <h2>From Chat Message<br>to Boardroom Report</h2>
+      <p class="section-lead">Four automated steps replace what used to take a whole shift of manual work.</p>
+    </div>
+
+    <div class="flow-steps reveal">
+      <div class="flow-step">
+        <div class="step-num">01</div>
+        <span class="step-icon">💬</span>
+        <div class="step-title">Technician Sends Report</div>
+        <div class="step-desc">Field staff messages the AI bot via Telegram in plain language — no forms, no training required</div>
+        <div class="step-arrow">›</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">02</div>
+        <span class="step-icon">🧠</span>
+        <div class="step-title">AI Parses & Validates</div>
+        <div class="step-desc">Agent extracts structured data, asks follow-up questions if anything is missing, confirms before saving</div>
+        <div class="step-arrow">›</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">03</div>
+        <span class="step-icon">📊</span>
+        <div class="step-title">Auto-Saved to Sheets</div>
+        <div class="step-desc">Data writes to Google Sheets in real-time — preventive, corrective, sparepart, and asset records updated instantly</div>
+        <div class="step-arrow">›</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">04</div>
+        <span class="step-icon">📲</span>
+        <div class="step-title">Manager Gets Notified</div>
+        <div class="step-desc">Formatted summary pushed to manager's Telegram. Dashboard refreshes live. No action needed from supervisor</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<section id="case-study">
+  <div class="container">
+    <div class="case-header reveal">
+      <div>
+        <div class="section-tag">// case study</div>
+        <h2>Airport Maintenance<br>Digitalization System</h2>
+      </div>
+      <div class="case-badge">⚡ Production · Live System</div>
+    </div>
+
+    <div class="metrics-bar reveal">
+      <div class="metric-card">
+        <div class="metric-value">198</div>
+        <div class="metric-label">Assets tracked in real-time</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">99%</div>
+        <div class="metric-label">PM completion rate</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">3</div>
+        <div class="metric-label">Specialized AI agents</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">8</div>
+        <div class="metric-label">Integrated data sheets</div>
+      </div>
+    </div>
+
+    <!-- SCREENSHOT TABS -->
+    <div class="screenshots-section reveal">
+      <div class="ss-tabs">
+        <button class="ss-tab active" onclick="showTab('tab-bot')">🤖 AI Report Bot</button>
+        <button class="ss-tab" onclick="showTab('tab-notif')">🔔 Manager Notifications</button>
+        <button class="ss-tab" onclick="showTab('tab-sheets')">📊 Google Sheets</button>
+        <button class="ss-tab" onclick="showTab('tab-dash')">📈 Live Dashboard</button>
+      </div>
+
+      <div id="tab-bot" class="ss-panel active">
+        <div class="ss-frame">
+          <div class="ss-toolbar">
+            <div class="ss-dot red"></div>
+            <div class="ss-dot yellow"></div>
+            <div class="ss-dot green"></div>
+            <div class="ss-url">Telegram — AI Maintenance Report Bot</div>
+          </div>
+          <div class="ss-img-wrap">
+            <img src="assets/screenshot_telegram_bot.png" alt="AI Maintenance Bot conversation showing structured data extraction from technician messages" loading="lazy">
+          </div>
+          <div class="ss-caption">Technician sends plain text → AI extracts structured report, asks for missing data, then saves automatically</div>
+        </div>
+      </div>
+
+      <div id="tab-notif" class="ss-panel">
+        <div class="ss-frame">
+          <div class="ss-toolbar">
+            <div class="ss-dot red"></div>
+            <div class="ss-dot yellow"></div>
+            <div class="ss-dot green"></div>
+            <div class="ss-url">Telegram — Manager Notification Channel</div>
+          </div>
+          <div class="ss-img-wrap">
+            <img src="assets/screenshot_manager_notif.png" alt="Manager notification showing sparepart alerts and preventive maintenance summary" loading="lazy">
+          </div>
+          <div class="ss-caption">Auto-formatted reports + sparepart alerts delivered to manager instantly after each technician submission</div>
+        </div>
+      </div>
+
+      <div id="tab-sheets" class="ss-panel">
+        <div class="ss-frame">
+          <div class="ss-toolbar">
+            <div class="ss-dot red"></div>
+            <div class="ss-dot yellow"></div>
+            <div class="ss-dot green"></div>
+            <div class="ss-url">Google Sheets — Maintenance Database</div>
+          </div>
+          <div class="ss-img-wrap">
+            <img src="assets/screenshot_google_sheets.png" alt="Google Sheets showing sparepart inventory with status indicators" loading="lazy">
+          </div>
+          <div class="ss-caption">8 interconnected sheets: Preventive (pagi/malam), Corrective, Sparepart ledger, Summary SP, Master Aset, Summary Aset</div>
+        </div>
+      </div>
+
+      <div id="tab-dash" class="ss-panel">
+        <div class="ss-frame">
+          <div class="ss-toolbar">
+            <div class="ss-dot red"></div>
+            <div class="ss-dot yellow"></div>
+            <div class="ss-dot green"></div>
+            <div class="ss-url">Operations Dashboard — Realtime</div>
+          </div>
+          <div class="ss-img-wrap">
+            <img src="assets/screenshot_dashboard.png" alt="Live operations dashboard showing maintenance KPIs, asset status, and recent PM reports" loading="lazy">
+          </div>
+          <div class="ss-caption">Live dashboard: PM total, asset completion %, corrective pending, critical stock — all auto-updated from Sheets API</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHAT WAS BUILT -->
+    <div style="margin-top: 64px;" class="reveal">
+      <div class="section-tag">// system components</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:32px;">What Was Built End-to-End</h3>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:12px;font-size:0.9rem;">🤖 Agent: Sanji (Reporting Bot)</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Understands natural language maintenance reports</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Multi-skill: preventive, corrective, sparepart, aset</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Validates data before saving, prompts missing fields</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Handles shift types: pagi, malam, daily check</li>
+          </ul>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:12px;font-size:0.9rem;">📊 Data Layer: Google Sheets API</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>8 active sheets, auto-formatted per month</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Ledger-based sparepart tracking with min-stock alerts</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Auto-update Master Aset + Summary on each PM</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Service account auth, restricted API key for dashboard</li>
+          </ul>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:12px;font-size:0.9rem;">📈 Dashboard: GitHub Pages + Sheets API</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Realtime KPI: PM total, completion %, corrective pending</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Asset status per category with progress bars</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Recent PM feed, sparepart critical count</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Zero-backend hosting, free infrastructure</li>
+          </ul>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:12px;font-size:0.9rem;">🔔 Notification Engine</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Auto-push formatted report to manager Telegram</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Sparepart alerts: ⚠️ menipis, 🔴 kosong thresholds</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Triggered on save, no polling needed</li>
+            <li style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;"><span style="color:var(--accent3)">✓</span>Multi-bot architecture: input bot + notification bot</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">// tech stack</div>
+      <h2>What I Build With</h2>
+      <p class="section-lead">Production-proven tools — chosen for reliability, speed-to-deploy, and zero vendor lock-in.</p>
+    </div>
+
+    <div class="stack-grid reveal">
+      <div class="stack-card">
+        <div class="stack-icon">🤖</div>
+        <div class="stack-name">AI Agents & LLMs</div>
+        <div class="stack-desc">Multi-agent orchestration with specialized skills — each agent handles one domain with clear boundaries.</div>
+        <div class="stack-pills">
+          <span class="pill">OpenClaw</span>
+          <span class="pill">GPT-4o-mini</span>
+          <span class="pill">Multi-agent</span>
+          <span class="pill">Tool use</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">💬</div>
+        <div class="stack-name">Telegram Bots</div>
+        <div class="stack-desc">Natural language interface for field staff — works on any device, no app install, no training required.</div>
+        <div class="stack-pills">
+          <span class="pill">Telegram API</span>
+          <span class="pill">NLP parsing</span>
+          <span class="pill">Multi-bot</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">📊</div>
+        <div class="stack-name">Google Sheets API</div>
+        <div class="stack-desc">Structured data storage that non-technical managers already know — no database admin needed.</div>
+        <div class="stack-pills">
+          <span class="pill">Sheets API v4</span>
+          <span class="pill">Service Account</span>
+          <span class="pill">GCP</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">📈</div>
+        <div class="stack-name">Live Dashboards</div>
+        <div class="stack-desc">Real-time web dashboards hosted on GitHub Pages — no server costs, auto-deploys on push.</div>
+        <div class="stack-pills">
+          <span class="pill">GitHub Pages</span>
+          <span class="pill">Vanilla JS</span>
+          <span class="pill">REST API</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">🖥️</div>
+        <div class="stack-name">Cloud VPS</div>
+        <div class="stack-desc">Lightweight always-on agent hosting with security hardening, fail protection, and web terminal access.</div>
+        <div class="stack-pills">
+          <span class="pill">Linux VPS</span>
+          <span class="pill">Fail2ban</span>
+          <span class="pill">ttyd</span>
+          <span class="pill">Node.js</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">🔧</div>
+        <div class="stack-name">System Integration</div>
+        <div class="stack-desc">Connecting disparate systems with clean APIs — each integration tested for real-world edge cases.</div>
+        <div class="stack-pills">
+          <span class="pill">REST APIs</span>
+          <span class="pill">Webhooks</span>
+          <span class="pill">JSON</span>
+          <span class="pill">OAuth2</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">// services</div>
+      <h2>What I Can Build<br>For Your Business</h2>
+      <p class="section-lead">Custom AI systems tailored to your team's workflow — not generic software that forces you to adapt.</p>
+    </div>
+
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-icon">🤖</div>
+        <div class="service-title">Custom AI Reporting Agent</div>
+        <div class="service-desc">
+          Build a Telegram or WhatsApp bot that collects structured reports from your team in natural language — no forms, no Excel submissions.
+        </div>
+        <ul class="service-includes">
+          <li>Understands your specific terminology & workflow</li>
+          <li>Data validation + smart follow-up questions</li>
+          <li>Connects to your preferred data storage</li>
+          <li>Multi-skill: different report types in one bot</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <div class="service-num">02</div>
+        <div class="service-title">Operations Dashboard</div>
+        <div class="service-desc">
+          Live web dashboard pulling data from Google Sheets, Notion, or any API — giving management real-time visibility without touching the backend.
+        </div>
+        <ul class="service-includes">
+          <li>Real-time KPI cards and progress tracking</li>
+          <li>Asset / inventory / task status views</li>
+          <li>Auto-refresh, mobile responsive</li>
+          <li>Zero server cost with GitHub Pages hosting</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔔</div>
+        <div class="service-num">03</div>
+        <div class="service-title">Intelligent Notification System</div>
+        <div class="service-desc">
+          Automated alerts and summaries pushed to managers — triggered by data events, thresholds, or schedules. No more "did you check the report?" messages.
+        </div>
+        <ul class="service-includes">
+          <li>Threshold-based alerts (stock, SLA, deadlines)</li>
+          <li>Scheduled summary reports</li>
+          <li>Multi-channel: Telegram, WhatsApp, Email</li>
+          <li>Customizable message formatting</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🏭</div>
+        <div class="service-num">04</div>
+        <div class="service-title">End-to-End Automation System</div>
+        <div class="service-desc">
+          Complete operational AI stack: from field data collection through AI agent → structured storage → live dashboard → manager notifications. Everything connected.
+        </div>
+        <ul class="service-includes">
+          <li>Full system design & architecture</li>
+          <li>Agent + database + dashboard + notifications</li>
+          <li>Staff training & documentation</li>
+          <li>1-3 month pilot → full rollout strategy</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">// investment</div>
+      <h2>Transparent Pricing</h2>
+      <p class="section-lead">Structured to deliver value fast — starting with a low-risk pilot before full commitment.</p>
+    </div>
+
+    <div class="pricing-grid reveal">
+      <div class="pricing-card">
+        <div class="pricing-name">Starter</div>
+        <div class="pricing-price">Rp 15–25jt</div>
+        <div class="pricing-period">one-time project fee</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span>Single AI reporting bot</li>
+          <li><span class="check">✓</span>1 report type (preventive or corrective)</li>
+          <li><span class="check">✓</span>Google Sheets integration</li>
+          <li><span class="check">✓</span>Manager notifications</li>
+          <li><span class="dash">–</span>Dashboard</li>
+          <li><span class="dash">–</span>Multi-agent system</li>
+        </ul>
+        <button class="btn-pricing btn-pricing-outline" onclick="scrollToContact()">Get Started</button>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="featured-badge">⚡ Most Popular</div>
+        <div class="pricing-name">Pilot System</div>
+        <div class="pricing-price">Rp 50–80jt</div>
+        <div class="pricing-period">3-month pilot contract</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span>Full multi-skill AI agent</li>
+          <li><span class="check">✓</span>All report types included</li>
+          <li><span class="check">✓</span>Google Sheets database (all sheets)</li>
+          <li><span class="check">✓</span>Live operations dashboard</li>
+          <li><span class="check">✓</span>Manager notification system</li>
+          <li><span class="check">✓</span>Staff training + documentation</li>
+        </ul>
+        <button class="btn-pricing btn-pricing-primary" onclick="scrollToContact()">Let's Talk</button>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-name">Full Contract</div>
+        <div class="pricing-price">Rp 300–500jt</div>
+        <div class="pricing-period">per year, full rollout</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span>Everything in Pilot</li>
+          <li><span class="check">✓</span>Multi-department rollout</li>
+          <li><span class="check">✓</span>Advanced analytics + MTTR tracking</li>
+          <li><span class="check">✓</span>AI predictive monthly report</li>
+          <li><span class="check">✓</span>Photo documentation integration</li>
+          <li><span class="check">✓</span>12-month support & maintenance</li>
+        </ul>
+        <button class="btn-pricing btn-pricing-outline" onclick="scrollToContact()">Let's Plan</button>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:0.82rem;color:var(--muted);margin-top:24px;">* Pricing varies based on scope, existing infrastructure, and number of users. Contact for a custom quote.</p>
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="cta-box reveal">
+      <div class="section-tag" style="display:block;margin-bottom:16px;">// let's build</div>
+      <h2 style="max-width:600px;margin:0 auto 20px;">Ready to Automate Your<br>Team's Operations?</h2>
+      <p class="section-lead" style="max-width:500px;margin:0 auto 40px;text-align:center;">
+        I build custom AI agent systems for industrial operations — already deployed and running in production environments like airports and large facilities.
+      </p>
+      <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+        <a href="https://t.me/hak33m84" class="btn-primary" target="_blank">
+          <span>💬</span>
+          <span>Chat on Telegram</span>
+        </a>
+        <a href="mailto:budihak33m@gmail.com" class="btn-secondary">
+          <span>✉️</span>
+          <span>Send Email</span>
+        </a>
+      </div>
+
+      <div class="contact-methods">
+        <div class="contact-chip">
+          <span>🕐</span>
+          <span>Usually responds within 4 hours</span>
+        </div>
+        <div class="contact-chip">
+          <span>📍</span>
+          <span>Medan, Indonesia · Remote worldwide</span>
+        </div>
+        <div class="contact-chip">
+          <span>🌐</span>
+          <span>Bahasa Indonesia & English</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 <span>Budi Hakim</span> — AI Automation Engineer · Built with intention, deployed with proof.</p>
+</footer>
+
+<script>
+// Tab switching for screenshots
+function showTab(id) {
+  document.querySelectorAll('.ss-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ss-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Scroll to contact
+function scrollToContact() {
+  document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Typing effect for hero
+const phrases = [
+  "That Actually Work",
+  "For Your Operations",
+  "And Save You Hours",
+  "In Production Today",
+];
+let phraseIdx = 0, charIdx = 0, deleting = false;
+
+function type() {
+  const el = document.querySelector('h1 .line2');
+  if (!el) return;
+  const cursor = '<span class="typing-cursor"></span>';
+  const current = phrases[phraseIdx];
+
+  if (!deleting) {
+    charIdx++;
+    if (charIdx > current.length) {
+      deleting = true;
+      setTimeout(type, 1800);
+      return;
+    }
+  } else {
+    charIdx--;
+    if (charIdx < 1) {
+      deleting = false;
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+      setTimeout(type, 300);
+      return;
+    }
+  }
+
+  el.innerHTML = current.slice(0, charIdx) + cursor;
+  setTimeout(type, deleting ? 40 : 70);
+}
+
+setTimeout(type, 2000);
+
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.background = window.scrollY > 50
+    ? 'rgba(8,12,20,0.95)'
+    : 'rgba(8,12,20,0.8)';
+});
+</script>
+</body>
+</html>
