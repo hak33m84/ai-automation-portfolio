@@ -134,7 +134,7 @@ nav a:hover { color: var(--text); }
 
 h1 {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: clamp(2rem, 8vw, 4.5rem);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.03em;
@@ -760,8 +760,10 @@ footer span { color: var(--accent); }
   .stack-grid { grid-template-columns: 1fr 1fr; }
   .services-grid { grid-template-columns: 1fr; }
   .pricing-grid { grid-template-columns: 1fr; }
-  .hero-stats { gap: 24px; }
+  .hero-stats { gap: 16px; display: grid; grid-template-columns: 1fr 1fr; }
   nav ul { display: none; }
+  .hero-sub { font-size: 1rem; }
+  .hero-badge { font-size: 0.72rem; padding: 5px 12px; white-space: normal; text-align: center; }
 }
 
 @media (max-width: 480px) {
@@ -1319,7 +1321,7 @@ footer span { color: var(--accent); }
           <span>💬</span>
           <span>Chat on Telegram</span>
         </a>
-        <a href="mailto:budihak33m@gmail.com" class="btn-secondary">
+        <a href="mailto:hak33m84@gmail.com" class="btn-secondary">
           <span>✉️</span>
           <span>Send Email</span>
         </a>
